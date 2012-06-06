@@ -107,6 +107,12 @@ public:
 
 	};//subPoints
 
+	void addNsubPoints(vector<helKaka> &allaKakor, vector<kakEater> &kakMonster, int winner, int loser, int temp_which_cake, int temp_bite, int I )
+	{
+		addPoints(allaKakor, kakMonster, winner, temp_which_cake, temp_bite, I);
+		subPoints(allaKakor, kakMonster, loser, temp_which_cake, temp_bite, I); 
+	};//addNsubPoints
+
 	void startCut (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
 	{
 		int gpc = ( G + C - 1) / C; //guest_per_cake
