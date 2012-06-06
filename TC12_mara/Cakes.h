@@ -98,6 +98,15 @@ public:
 
 	};//addPoints
 
+	void subPoints(vector<helKaka> &allaKakor, vector<kakEater> &kakMonster, int k, int temp_which_cake, int temp_bite, int I )
+	{
+		for(int i = 0; i < I; i++) {
+			kakMonster[k].joyPoints -= kakMonster[k].prefs[i] * allaKakor[temp_which_cake].kB[temp_bite].ingredient[i];
+
+		}//for
+
+	};//subPoints
+
 	void startCut (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
 	{
 		int gpc = ( G + C - 1) / C; //guest_per_cake
