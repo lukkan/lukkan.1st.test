@@ -59,7 +59,7 @@ public:
 					bitTemp.col = y;
 
 					for( int i = 0; i < I; i++ ) {
-						bitTemp.ingredient.push_back( cakes[ c*S*S + x * I * S + y * I +i ] );
+						bitTemp.ingredient.push_back( cakes[ c*I*S*S + x * I * S + y * I +i ] );
 					}//for i
 					bitTemp.eaten = -1;
 					helTemp.kB.push_back(bitTemp);
@@ -168,7 +168,7 @@ public:
 			if( temp_bite - S >= 0 && allaKakor[which_cake].kB[temp_bite - S].eaten == -1 )
 			{
 				temp_joy = calcJoy( allaKakor, kakMonster, which_cake, guest, (temp_bite - S), I);
-				cout << "temp_joy 1 " << temp_joy << endl;
+			//	cout << "temp_joy 1 " << temp_joy << endl;
 				if( temp_joy > max_joy )
 				{
 					max_joy = temp_joy;
@@ -189,10 +189,11 @@ public:
 			}//if
 
 			//left
-			if( temp_bite - 1 >= 0 && allaKakor[which_cake].kB[temp_bite - 1].eaten == -1 )
+			//if( temp_bite - 1 >= 0 && allaKakor[which_cake].kB[temp_bite - 1].eaten == -1 )
+			if( temp_bite % S != 0 && allaKakor[which_cake].kB[temp_bite - 1].eaten == -1 )
 			{
 				temp_joy = calcJoy( allaKakor, kakMonster, which_cake, guest, (temp_bite - 1), I);
-				cout << "temp_joy 3 " << temp_joy << endl;
+			//	cout << "temp_joy 3 " << temp_joy << endl;
 				if( temp_joy > max_joy )
 				{
 					max_joy = temp_joy;
@@ -201,7 +202,8 @@ public:
 			}//if
 
 			//right
-			if( temp_bite + 1 < ss && allaKakor[which_cake].kB[temp_bite + 1].eaten == -1 )
+			//if( temp_bite + 1 < ss && allaKakor[which_cake].kB[temp_bite + 1].eaten == -1 )
+			if( temp_bite % S != ( S - 1 ) && allaKakor[which_cake].kB[temp_bite + 1].eaten == -1 )
 			{
 				temp_joy = calcJoy( allaKakor, kakMonster, which_cake, guest, (temp_bite + 1), I);
 				//cout << "temp_joy 4 " << temp_joy << endl;
@@ -219,6 +221,7 @@ public:
 ////////////////////////////////////////////////////////
 	bool greaterPointsComp(kakEater lk, kakEater rk) 
 	{
+		if(lk.joyPoints < rk.joyPoints)
 		return !(lk.joyPoints < rk.joyPoints); // kolla att rätt
 	}//greaterPointsComp
 ////////////////////////////////////////////////////////
@@ -231,23 +234,9 @@ public:
 		}
 
 	};//class CgreaterPointsComp
-////////////////////////////////////////////////////////
-	vector<int> split(int C, int G, int I, int S, vector<int> preferences, vector<int> cakes)
+
+	void cutUp(vector<helKaka> &allaKakor,vector<kakEater> &kakMonster, priority_queue<kakEater,vector<kakEater>, CgreaterPointsComp>  &kakEaterQueue, int S, int I)
 	{
-		init(C, G, I, S, preferences, cakes);
-		whichCake(C, G, I, S, preferences, cakes);
-		startCut(C, G, I, S, preferences, cakes);
-		//make a priority-queue
-//		bool (*ptr_greaterPointsComp) (kakEater, kakEater);
-//		ptr_greaterPointsComp = &Cakes::greaterPointsComp;
-//		priority_queue<kakEater, vector<kakEater>, ptr_greaterPointsComp > kakEaterQueue;
-
-		priority_queue<kakEater,vector<kakEater>, CgreaterPointsComp> kakEaterQueue;
-		for(int i = 0; i < G; i++) {
-			kakEaterQueue.push(kakMonster[i]);
-
-		}//for
-
 		kakEater temp_guest = kakEaterQueue.top();
 		kakEaterQueue.pop();
 		int temp_id = temp_guest.id;
@@ -259,17 +248,51 @@ public:
 		markBite(allaKakor, kakMonster, temp_id, temp_cake, temp_bite);
 		addPoints(allaKakor, kakMonster, temp_id, temp_cake, temp_bite, I);
 		kakEaterQueue.push(kakMonster[temp_id]);
+		//cout << "Points: " << kakMonster[0].joyPoints << endl;
 		
+		//while( !kakEaterQueue.empty() )
+		for(int i = 0; i < 641; i++)
+		{
+			//if( i == 640 ) cout << "kakE " << kakEaterQueue.top().cake_bites.size() << endl;
+			temp_guest = kakEaterQueue.top();
+			kakEaterQueue.pop();
+			temp_id = temp_guest.id;
+			
+			temp_cake = temp_guest.which_cake;
+			//cout << "temp_cake " << temp_cake << endl;
+			temp_bite= findJoyfullestBite(allaKakor, kakMonster, temp_cake, temp_id, S, I);
+			//cout << "temp_bite " << temp_bite << endl;
+			if( temp_bite != -2 )
+			{
+				markBite(allaKakor, kakMonster, temp_id, temp_cake, temp_bite);
+				addPoints(allaKakor, kakMonster, temp_id, temp_cake, temp_bite, I);
+				kakEaterQueue.push(kakMonster[temp_id]);
+			}//if
+		}//while
 
-		//cutUp
+	};//cutUp
+////////////////////////////////////////////////////////
+	vector<int> split(int C, int G, int I, int S, vector<int> preferences, vector<int> cakes)
+	{
+		init(C, G, I, S, preferences, cakes);
+		whichCake(C, G, I, S, preferences, cakes);
+		startCut(C, G, I, S, preferences, cakes);
+		//make a priority-queue
+//		bool (*ptr_greaterPointsComp) (kakEater, kakEater);
+//		ptr_greaterPointsComp = &Cakes::greaterPointsComp;
+//		priority_queue<kakEater, vector<kakEater>, ptr_greaterPointsComp > kakEaterQueue;
+		//cout << "Points: " << kakMonster[2].joyPoints << endl;
+
+		priority_queue<kakEater,vector<kakEater>, CgreaterPointsComp> kakEaterQueue;
+		for(int i = 0; i < G; i++) {
+			kakEaterQueue.push(kakMonster[i]);
+
+		}//for
+
+		cutUp(allaKakor, kakMonster, kakEaterQueue, S, I);
 				
 		vector<int> ret;
 		ret.reserve( C * S * S );
-
-		//int css = C * S * S;
-		//for( int i = 0; i < css; i++) {
-		//	ret.push_back(i);
-		//}//for
 
 		int ss = S * S;
 		for(int i = 0; i < C; i++)
