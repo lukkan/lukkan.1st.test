@@ -75,12 +75,42 @@ public:
 
 	};//init
 ////////////////////////////////////////////////////////
-	void whichCake (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
+	
+//	void whichCake (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
+	void whichCake (vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , int S )
 	{
-		int guests_per_cake = ( G + C - 1) / C;
-		for( int i = 0; i < G; i++) {
-			kakMonster[i].which_cake = i / guests_per_cake;
-		}//for
+		// a local copy, no worries!
+		//vector<kakEater> chooseCakeEater (kakMonster);
+		int num_cakes = allaKakor.size();
+		int guests = kakMonster.size();
+		int ing = allaKakor[0].kB[0].ingredient.size();
+		vector< vector<int> > guest_want_cake;
+		vector<int> temp_want;
+		int temp_sum;
+
+		int ss = S * S;
+	
+		for(int g = 0; g < guests; g++ ) {
+			for(int c = 0; c < num_cakes; c++) {
+				for(int s = 0; s < ss; s++) {
+					for(int i = 0; i < ing; i++) {
+						temp_sum += allaKakor[c].kB[s].ingredient[i] * kakMonster[g].prefs[i];
+					}//for i
+				}//for s
+				temp_want.push_back(temp_sum);
+				temp_sum = 0;
+			}//for c
+			guest_want_cake.push_back(temp_want);
+			temp_want.clear();
+		}//for g
+
+
+
+
+		//int guests_per_cake = ( G + C - 1) / C;
+		//for( int i = 0; i < G; i++) {
+		//	kakMonster[i].which_cake = i / guests_per_cake;
+		//}//for
 
 	};//whichCake
 ////////////////////////////////////////////////////////
@@ -133,17 +163,17 @@ public:
 ////////////////////////////////////////////////////////
 	void startCut (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
 	{
-		int gpc = ( G + C - 1) / C; //guest_per_cake
-		int temp_which_cake;
-		float temp_bite;
+		//int gpc = ( G + C - 1) / C; //guest_per_cake
+		//int temp_which_cake;
+		//float temp_bite;
 
-		for( int i = 0; i < G; i++) { //a bite to everybody
-			temp_which_cake = kakMonster[i].which_cake;
-			temp_bite = static_cast<float>( ((float)i - ( (float)temp_which_cake * (float)gpc ) ) / ( (float)gpc - 1) * ( ((float)S * (float)S ) - 1 ) );
-			
-			markBite( allaKakor, kakMonster, i, temp_which_cake, temp_bite ); //bättre att skicka över en kaka och en kakätare, istället för alla?
-			addPoints( allaKakor, kakMonster, i, temp_which_cake, temp_bite, I);
-		}//for
+		//for( int i = 0; i < G; i++) { //a bite to everybody
+		//	temp_which_cake = kakMonster[i].which_cake;
+		//	temp_bite = static_cast<float>( ((float)i - ( (float)temp_which_cake * (float)gpc ) ) / ( (float)gpc - 1) * ( ((float)S * (float)S ) - 1 ) );
+		//	
+		//	markBite( allaKakor, kakMonster, i, temp_which_cake, temp_bite ); //bättre att skicka över en kaka och en kakätare, istället för alla?
+		//	addPoints( allaKakor, kakMonster, i, temp_which_cake, temp_bite, I);
+		//}//for
 
 	};//startCut
 ////////////////////////////////////////////////////////
@@ -239,7 +269,7 @@ public:
 		}
 
 	};//class CgreaterPointsComp
-
+////////////////////////////////////////////////
 	void cutUp(vector<helKaka> &allaKakor,vector<kakEater> &kakMonster, priority_queue<kakEater,vector<kakEater>, CgreaterPointsComp>  &kakEaterQueue, int S, int I)
 	{
 		kakEater temp_guest = kakEaterQueue.top();
@@ -280,22 +310,20 @@ public:
 	vector<int> split(int C, int G, int I, int S, vector<int> preferences, vector<int> cakes)
 	{
 		init(C, G, I, S, preferences, cakes);
-		whichCake(C, G, I, S, preferences, cakes);
+		whichCake(allaKakor, kakMonster , S );
 		startCut(C, G, I, S, preferences, cakes);
-		//make a priority-queue
-//		bool (*ptr_greaterPointsComp) (kakEater, kakEater);
-//		ptr_greaterPointsComp = &Cakes::greaterPointsComp;
-//		priority_queue<kakEater, vector<kakEater>, ptr_greaterPointsComp > kakEaterQueue;
-		//cout << "Points: " << kakMonster[2].joyPoints << endl;
+		
 
+		//föra över prio-kön till cutUp
 		priority_queue<kakEater,vector<kakEater>, CgreaterPointsComp> kakEaterQueue;
 		for(int i = 0; i < G; i++) {
 			kakEaterQueue.push(kakMonster[i]);
 
 		}//for
-
 		cutUp(allaKakor, kakMonster, kakEaterQueue, S, I);
-				
+			
+
+		//output
 		vector<int> ret;
 		ret.reserve( C * S * S );
 
