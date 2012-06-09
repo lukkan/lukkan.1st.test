@@ -230,7 +230,12 @@ public:
 	public:
 		inline bool operator()( const kakEater lhs,const kakEater rhs) const//skall det vara &?
 		{
-			return !(lhs.joyPoints < rhs.joyPoints); // kolla att rätt
+		//	return !(lhs.joyPoints < rhs.joyPoints); // kolla att rätt
+			if( lhs.joyPoints < rhs.joyPoints)
+				return false;
+			if( lhs.joyPoints > rhs.joyPoints)
+				return true;
+			return false;
 		}
 
 	};//class CgreaterPointsComp
@@ -250,8 +255,8 @@ public:
 		kakEaterQueue.push(kakMonster[temp_id]);
 		//cout << "Points: " << kakMonster[0].joyPoints << endl;
 		
-		//while( !kakEaterQueue.empty() )
-		for(int i = 0; i < 641; i++)
+		while( !kakEaterQueue.empty() )
+	//	for(int i = 0; i < 641; i++)
 		{
 			//if( i == 640 ) cout << "kakE " << kakEaterQueue.top().cake_bites.size() << endl;
 			temp_guest = kakEaterQueue.top();
