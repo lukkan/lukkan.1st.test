@@ -3,6 +3,7 @@
 #include<vector>
 #include<algorithm>
 #include<queue>
+#include<climits>
 
 using namespace std;
 
@@ -77,20 +78,20 @@ public:
 ////////////////////////////////////////////////////////
 	
 //	void whichCake (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
-	void whichCake (vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , int S )
+	void whichCake (vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , int S, vector<int> &how_many_guests_per_cake )
 	{
 		// a local copy, no worries!
 		//vector<kakEater> chooseCakeEater (kakMonster);
 		int num_cakes = allaKakor.size();
-		int guests = kakMonster.size();
+		int num_guests = kakMonster.size();
 		int ing = allaKakor[0].kB[0].ingredient.size();
 		vector< vector<int> > guest_want_cake;
 		vector<int> temp_want;
-		int temp_sum;
+		int temp_sum = 0;
 
 		int ss = S * S;
 	
-		for(int g = 0; g < guests; g++ ) {
+		for(int g = 0; g < num_guests; g++ ) {
 			for(int c = 0; c < num_cakes; c++) {
 				for(int s = 0; s < ss; s++) {
 					for(int i = 0; i < ing; i++) {
@@ -103,10 +104,49 @@ public:
 			guest_want_cake.push_back(temp_want);
 			temp_want.clear();
 		}//for g
+		
+		vector<int> number_per_cake (num_cakes, 1);
+		//cout << "number per cake " << number_per_cake[1] << endl;
 
+		vector<int> guests_max;
+		int temp_max;
+		for(int i = 0; i < num_guests; i++) {
+			temp_max = *max_element(guest_want_cake[i].begin(), guest_want_cake[i].end() );
+			guests_max.push_back(temp_max);
+		}//for i
 
+		for(int g = 0; g < num_guests; g++) {
+			int who = min_element(guests_max.begin(), guests_max.end() ) - guests_max.begin();
+			int temp_cake_value = 0;
+			int max_cake_value = 0;
+			int max_cake_nr = 0;
+			vector<int> cake_need = guest_want_cake[who];
+			for(int c = 0; c < num_cakes; c++) {
+				temp_cake_value = cake_need[c] / number_per_cake[c];
+				//if(g==3 && c == 1) cout << "cake_need[c] / number_per_cake[c] " << cake_need[c] / number_per_cake[c] << endl;
+				if(temp_cake_value > max_cake_value ) {
+					max_cake_nr = c;
+					max_cake_value = temp_cake_value;
+				//	if( c == 1 && g == 0 ) cout << "temp_cake_value " << temp_cake_value << endl;
+				}//if
+			}//for c
 
+			kakMonster[who].which_cake = max_cake_nr;
+		//	how_many_guests_per_cake[max_cake_nr] += 1;
+			guests_max[who] = INT_MAX;
+			number_per_cake[max_cake_nr] += 1;
+			max_cake_value = 0;
+			
+		}//for g
 
+	//	for_each(how_many_guests_per_cake.begin(), how_many_guests_per_cake.end(), number_per_cake.begin() - 1);
+		for(int c = 0; c < num_cakes; c++)
+		{
+			how_many_guests_per_cake[c] = number_per_cake[c] - 1;
+		}// for c
+	//	cout << "number per cake " << number_per_cake[0] << endl;
+
+	//	cout << "which cake " << kakMonster[3].which_cake;
 		//int guests_per_cake = ( G + C - 1) / C;
 		//for( int i = 0; i < G; i++) {
 		//	kakMonster[i].which_cake = i / guests_per_cake;
@@ -310,8 +350,10 @@ public:
 	vector<int> split(int C, int G, int I, int S, vector<int> preferences, vector<int> cakes)
 	{
 		init(C, G, I, S, preferences, cakes);
-		whichCake(allaKakor, kakMonster , S );
-		startCut(C, G, I, S, preferences, cakes);
+
+		vector<int> how_many_guests_per_cake (C, 0);
+		whichCake(allaKakor, kakMonster , S, how_many_guests_per_cake );
+		//startCut(C, G, I, S, preferences, cakes);
 		
 
 		//föra över prio-kön till cutUp
