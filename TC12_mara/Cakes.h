@@ -201,8 +201,29 @@ public:
 		subPoints(allaKakor, kakMonster, loser, temp_which_cake, temp_bite, I); 
 	};//addNsubPoints
 ////////////////////////////////////////////////////////
-	void startCut (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
-	{
+	
+//	void startCut (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
+	void startCut (vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , int S, int C, int I, vector<int> &how_many_guests_per_cake)
+	{ 
+		for( int c = 0; c < C; c++) {
+			int gpc = how_many_guests_per_cake[c];
+			
+			for( int g = 0; g < gpc; g++) {
+				int num_g = 0;
+				vector<kakEater>::iterator it = kakMonster.begin();
+				for( ; it != kakMonster.end(); it++) {
+					if( (*it).which_cake == c ) {
+						int temp_bite = ( (float)S * (float)S - 1) * (float)num_g  / ( (float)gpc - 1) ;
+						num_g++;
+						//(*it).cake_bites.push_back(temp_bite); // görs i addPoints
+						markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
+						addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
+					}//if
+
+				}// for it
+			}//for g
+		}//for c
+
 		//int gpc = ( G + C - 1) / C; //guest_per_cake
 		//int temp_which_cake;
 		//float temp_bite;
@@ -354,7 +375,7 @@ public:
 		vector<int> how_many_guests_per_cake (C, 0);
 		whichCake(allaKakor, kakMonster , S, how_many_guests_per_cake );
 		//startCut(C, G, I, S, preferences, cakes);
-		
+		startCut(allaKakor, kakMonster , S, C, I, how_many_guests_per_cake);
 
 		//föra över prio-kön till cutUp
 		priority_queue<kakEater,vector<kakEater>, CgreaterPointsComp> kakEaterQueue;
