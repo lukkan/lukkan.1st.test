@@ -100,41 +100,117 @@ public:
 		}//for g
 		
 		vector<int> number_per_cake (num_cakes, 1);
-		
-		//vector<int> guests_max;
-		//int temp_max;
-		//for(int i = 0; i < num_guests; i++) {
-		//	temp_max = *max_element(guest_want_cake[i].begin(), guest_want_cake[i].end() );
-		//	guests_max.push_back(temp_max);
-		//}//for i
 
-		//for(int g = 0; g < num_guests; g++) {
-		//	int who = min_element(guests_max.begin(), guests_max.end() ) - guests_max.begin();
-		//	int temp_cake_value = 0;
-		//	int max_cake_value = 0;
-		//	int max_cake_nr = 0;
-		//	vector<int> cake_need = guest_want_cake[who];
-		//	for(int c = 0; c < num_cakes; c++) {
-		//		temp_cake_value = cake_need[c] / number_per_cake[c];
-		//		if(temp_cake_value > max_cake_value ) {
-		//			max_cake_nr = c;
-		//			max_cake_value = temp_cake_value;
-		//		}//if
-		//	}//for c
-
-		//	kakMonster[who].which_cake = max_cake_nr;
-		//	guests_max[who] = INT_MAX;
-		//	number_per_cake[max_cake_nr] += 1;
-		//	max_cake_value = 0;
-		//	
-		//}//for g
-
-		vector<int> guest_total;
-		int temp_total;
+		vector<int> guests_max;
+		int temp_max;
 		for(int i = 0; i < num_guests; i++) {
-			temp_total = accumulate(guest_want_cake[i].begin(), guest_want_cake[i].end(), 0);
-			guest_total.push_back(temp_total);
+			temp_max = *max_element(guest_want_cake[i].begin(), guest_want_cake[i].end() );
+			guests_max.push_back(temp_max);
 		}//for i
+
+		for(int g = 0; g < num_guests; g++) {
+			int who = min_element(guests_max.begin(), guests_max.end() ) - guests_max.begin();
+			int temp_cake_value = 0;
+			int max_cake_value = 0;
+			int max_cake_nr = 0;
+			vector<int> cake_need = guest_want_cake[who];
+			for(int c = 0; c < num_cakes; c++) {
+				temp_cake_value = cake_need[c] / number_per_cake[c];
+				if(temp_cake_value > max_cake_value ) {
+					max_cake_nr = c;
+					max_cake_value = temp_cake_value;
+				}//if
+			}//for c
+
+			kakMonster[who].which_cake = max_cake_nr;
+			guests_max[who] = INT_MAX;
+			number_per_cake[max_cake_nr] += 1;
+			max_cake_value = 0;
+			
+		}//for g
+	
+		//leta upp den med lägst ( points / antalPåTårta)
+		//swappa med alla andra till erhåller lägst poäng
+		// fördela enligt lägsta min (enligt ovan) eller enligt lägsta totpoäng
+
+		int wh = 0;
+		bool has_changed = true;
+		while (has_changed) {
+			has_changed = false;
+			//find mini
+			int min_point = INT_MAX;
+			int min_guest = 0;
+			int temp_guest_cake;
+			vector<int> temp_guest_need ;
+			for(int i = 0; i < num_guests; i++) {
+				temp_guest_need = guest_want_cake[i];
+				int temp_guest_cake = kakMonster[i].which_cake;
+				int temp_points = temp_guest_need[temp_guest_cake] / number_per_cake[temp_guest_cake];
+				
+				if( min_point > temp_points )
+				{
+					min_point = temp_points;
+					min_guest = i;
+				}//if
+			}//for
+
+			//cout << "i " << min_guest << endl;
+			//nu har jag hittat gästen med lägst chans att få många poäng
+			// gå igenom alla gäster, hitta min_
+
+			int min_guest_cake = kakMonster[min_guest].which_cake;
+			vector<int> min_guest_need = guest_want_cake[min_guest];
+
+			//int min_guest_points = min_guest_need[
+			int swapee_max_points = 0;
+			int swapee = -1;
+			
+			for(int i = 0; i < num_guests; i++) {
+				int temp_whick_cake = kakMonster[i].which_cake;
+				if( i == min_guest || temp_whick_cake == min_guest_cake )
+				{	continue; }
+
+				temp_guest_need= guest_want_cake[i];
+				//simulate a swap
+				//kolla först at min_guest får mer poäng
+				if( min_guest_need[temp_whick_cake] / number_per_cake[temp_whick_cake] > min_point )
+				{
+					//kolla sedan att temp_guest inte får LÄGRE poäng än min_guest
+					int temp_guest_points = temp_guest_need[min_guest_cake] / number_per_cake[min_guest_cake];
+					if( temp_guest_points > min_point )
+					{
+						//kolla sedan att att det blir högsta swapee_points
+						if( temp_guest_points > swapee_max_points )
+						{
+							swapee_max_points = temp_guest_points;
+							swapee = i;
+						}//if
+					}//if
+				}//if
+			}//for
+
+	//		if( wh == 1) cout << "swapee " << swapee << endl;
+			if(swapee != -1) {
+				has_changed = true;
+				int temp = kakMonster[min_guest].which_cake;
+				kakMonster[min_guest].which_cake = kakMonster[swapee].which_cake;
+				kakMonster[swapee].which_cake = temp;
+
+			}
+
+			wh++;
+		}//while
+
+
+
+	////////////////////////////////////////////
+		//avvakta 
+		//vector<int> guest_total;
+		//int temp_total;
+		//for(int i = 0; i < num_guests; i++) {
+		//	temp_total = accumulate(guest_want_cake[i].begin(), guest_want_cake[i].end(), 0);
+		//	guest_total.push_back(temp_total);
+		//}//for i
 
 		for(int c = 0; c < num_cakes; c++)
 		{
