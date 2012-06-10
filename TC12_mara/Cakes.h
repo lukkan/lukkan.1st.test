@@ -80,6 +80,15 @@ public:
 //	void whichCake (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
 	void whichCake (vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , int S, vector<int> &how_many_guests_per_cake )
 	{
+		//kakMonster[0].which_cake = 1;
+		//kakMonster[1].which_cake = 1;
+		//kakMonster[2].which_cake = 0;
+		//kakMonster[3].which_cake = 0;
+		//how_many_guests_per_cake[0] = 2;
+		//how_many_guests_per_cake[1] = 2;
+
+
+		/////////////////////////////////////////////////////
 		// a local copy, no worries!
 		//vector<kakEater> chooseCakeEater (kakMonster);
 		int num_cakes = allaKakor.size();
@@ -139,11 +148,12 @@ public:
 			
 		}//for g
 
-	//	for_each(how_many_guests_per_cake.begin(), how_many_guests_per_cake.end(), number_per_cake.begin() - 1);
 		for(int c = 0; c < num_cakes; c++)
 		{
 			how_many_guests_per_cake[c] = number_per_cake[c] - 1;
 		}// for c
+
+		////////////////////////////////////////////////////////////////////////
 	//	cout << "number per cake " << number_per_cake[0] << endl;
 
 	//	cout << "which cake " << kakMonster[3].which_cake;
