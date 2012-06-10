@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<queue>
 #include<climits>
+#include<numeric>
 
 using namespace std;
 
@@ -49,7 +50,6 @@ public:
 
 		helKaka helTemp;
 		kakBit bitTemp;
-//		vector<int> ingTemp;
 
 		for( int c = 0; c < C; c++) {
 
@@ -65,23 +65,17 @@ public:
 					bitTemp.eaten = -1;
 					helTemp.kB.push_back(bitTemp);
 					bitTemp.ingredient.clear();
-
 				}//for y
-
 			}//for x
 			allaKakor.push_back(helTemp);
 			helTemp.kB.clear();
-
 		}//for c
 
 	};//init
 ////////////////////////////////////////////////////////
 	
-//	void whichCake (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
 	void whichCake (vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , int S, vector<int> &how_many_guests_per_cake )
 	{
-		// a local copy, no worries!
-		//vector<kakEater> chooseCakeEater (kakMonster);
 		int num_cakes = allaKakor.size();
 		int num_guests = kakMonster.size();
 		int ing = allaKakor[0].kB[0].ingredient.size();
@@ -106,51 +100,46 @@ public:
 		}//for g
 		
 		vector<int> number_per_cake (num_cakes, 1);
-		//cout << "number per cake " << number_per_cake[1] << endl;
+		
+		//vector<int> guests_max;
+		//int temp_max;
+		//for(int i = 0; i < num_guests; i++) {
+		//	temp_max = *max_element(guest_want_cake[i].begin(), guest_want_cake[i].end() );
+		//	guests_max.push_back(temp_max);
+		//}//for i
 
-		vector<int> guests_max;
-		int temp_max;
+		//for(int g = 0; g < num_guests; g++) {
+		//	int who = min_element(guests_max.begin(), guests_max.end() ) - guests_max.begin();
+		//	int temp_cake_value = 0;
+		//	int max_cake_value = 0;
+		//	int max_cake_nr = 0;
+		//	vector<int> cake_need = guest_want_cake[who];
+		//	for(int c = 0; c < num_cakes; c++) {
+		//		temp_cake_value = cake_need[c] / number_per_cake[c];
+		//		if(temp_cake_value > max_cake_value ) {
+		//			max_cake_nr = c;
+		//			max_cake_value = temp_cake_value;
+		//		}//if
+		//	}//for c
+
+		//	kakMonster[who].which_cake = max_cake_nr;
+		//	guests_max[who] = INT_MAX;
+		//	number_per_cake[max_cake_nr] += 1;
+		//	max_cake_value = 0;
+		//	
+		//}//for g
+
+		vector<int> guest_total;
+		int temp_total;
 		for(int i = 0; i < num_guests; i++) {
-			temp_max = *max_element(guest_want_cake[i].begin(), guest_want_cake[i].end() );
-			guests_max.push_back(temp_max);
+			temp_total = accumulate(guest_want_cake[i].begin(), guest_want_cake[i].end(), 0);
+			guest_total.push_back(temp_total);
 		}//for i
 
-		for(int g = 0; g < num_guests; g++) {
-			int who = min_element(guests_max.begin(), guests_max.end() ) - guests_max.begin();
-			int temp_cake_value = 0;
-			int max_cake_value = 0;
-			int max_cake_nr = 0;
-			vector<int> cake_need = guest_want_cake[who];
-			for(int c = 0; c < num_cakes; c++) {
-				temp_cake_value = cake_need[c] / number_per_cake[c];
-				//if(g==3 && c == 1) cout << "cake_need[c] / number_per_cake[c] " << cake_need[c] / number_per_cake[c] << endl;
-				if(temp_cake_value > max_cake_value ) {
-					max_cake_nr = c;
-					max_cake_value = temp_cake_value;
-				//	if( c == 1 && g == 0 ) cout << "temp_cake_value " << temp_cake_value << endl;
-				}//if
-			}//for c
-
-			kakMonster[who].which_cake = max_cake_nr;
-		//	how_many_guests_per_cake[max_cake_nr] += 1;
-			guests_max[who] = INT_MAX;
-			number_per_cake[max_cake_nr] += 1;
-			max_cake_value = 0;
-			
-		}//for g
-
-	//	for_each(how_many_guests_per_cake.begin(), how_many_guests_per_cake.end(), number_per_cake.begin() - 1);
 		for(int c = 0; c < num_cakes; c++)
 		{
 			how_many_guests_per_cake[c] = number_per_cake[c] - 1;
 		}// for c
-	//	cout << "number per cake " << number_per_cake[0] << endl;
-
-	//	cout << "which cake " << kakMonster[3].which_cake;
-		//int guests_per_cake = ( G + C - 1) / C;
-		//for( int i = 0; i < G; i++) {
-		//	kakMonster[i].which_cake = i / guests_per_cake;
-		//}//for
 
 	};//whichCake
 ////////////////////////////////////////////////////////
@@ -171,9 +160,6 @@ public:
 ////////////////////////////////////////////////////////
 	void addPoints(vector<helKaka> &allaKakor, vector<kakEater> &kakMonster, int guest, int temp_which_cake, int temp_bite, int I )
 	{
-		/*for(int i = 0; i < I; i++) {
-			kakMonster[guest].joyPoints += kakMonster[guest].prefs[i] * allaKakor[temp_which_cake].kB[temp_bite].ingredient[i];*/
-//		}//for
 		kakMonster[guest].joyPoints += calcJoy(allaKakor, kakMonster, temp_which_cake, guest, temp_bite, I);
 		kakMonster[guest].cake_bites.push_back(temp_bite);
 
@@ -181,16 +167,8 @@ public:
 ////////////////////////////////////////////////////////
 	void subPoints(vector<helKaka> &allaKakor, vector<kakEater> &kakMonster, int guest, int temp_which_cake, int temp_bite, int I )
 	{
-		//for(int i = 0; i < I; i++) {
-		//	kakMonster[k].joyPoints -= kakMonster[k].prefs[i] * allaKakor[temp_which_cake].kB[temp_bite].ingredient[i];
-
-		//}//for
 		kakMonster[guest].joyPoints -= calcJoy(allaKakor, kakMonster, temp_which_cake, guest, temp_bite, I);
 		kakMonster[guest].cake_bites.erase( remove( kakMonster[guest].cake_bites.begin(), kakMonster[guest].cake_bites.end(), temp_bite), kakMonster[guest].cake_bites.end() );
-
-		//vector<int>::iterator it = find( kakMonster[guest].cake_bites.begin(), kakMonster[guest].cake_bites.end(), temp_bite);
-		//if( it != kakMonster[guest].cake_bites.end() )
-		//kakMonster[guest].cake_bites.erase(it) ;
 
 	};//subPoints
 ////////////////////////////////////////////////////////
@@ -202,7 +180,6 @@ public:
 	};//addNsubPoints
 ////////////////////////////////////////////////////////
 	
-//	void startCut (int C, int G, int I, int S, vector<int> &preferences, vector<int> &cakes)
 	void startCut (vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , int S, int C, int I, vector<int> &how_many_guests_per_cake)
 	{ 
 		for( int c = 0; c < C; c++) {
@@ -224,42 +201,23 @@ public:
 			}//for g
 		}//for c
 
-		//int gpc = ( G + C - 1) / C; //guest_per_cake
-		//int temp_which_cake;
-		//float temp_bite;
-
-		//for( int i = 0; i < G; i++) { //a bite to everybody
-		//	temp_which_cake = kakMonster[i].which_cake;
-		//	temp_bite = static_cast<float>( ((float)i - ( (float)temp_which_cake * (float)gpc ) ) / ( (float)gpc - 1) * ( ((float)S * (float)S ) - 1 ) );
-		//	
-		//	markBite( allaKakor, kakMonster, i, temp_which_cake, temp_bite ); //bättre att skicka över en kaka och en kakätare, istället för alla?
-		//	addPoints( allaKakor, kakMonster, i, temp_which_cake, temp_bite, I);
-		//}//for
-
 	};//startCut
 ////////////////////////////////////////////////////////
 	int findJoyfullestBite(vector<helKaka> &allaKakor, vector<kakEater> &kakMonster, int which_cake, int guest, int S, int I )//returning which bite
 	{
-		//vector<int>::iterator it = kakMonster[guest].cake_bites.begin();
 		int temp_bite;
 		int max_bite = -2;
 		int temp_joy = 0;
 		int max_joy = 0;
 		int ss = S * S;
 
-		//for( ; it != kakMonster[guest].cake_bites.end(); it++) {
-		//	temp_bite = *it;
-
 		for(int i = 0; i < kakMonster[guest].cake_bites.size(); i++) {
 			temp_bite = kakMonster[guest].cake_bites[i]; 
-			//cout << "temp_bite " << allaKakor[which_cake].kB[temp_bite].eaten << endl;
-			//cout << "ss " << ss << endl;
 			
 			//up
 			if( temp_bite - S >= 0 && allaKakor[which_cake].kB[temp_bite - S].eaten == -1 )
 			{
 				temp_joy = calcJoy( allaKakor, kakMonster, which_cake, guest, (temp_bite - S), I);
-			//	cout << "temp_joy 1 " << temp_joy << endl;
 				if( temp_joy > max_joy )
 				{
 					max_joy = temp_joy;
@@ -271,7 +229,6 @@ public:
 			if( temp_bite + S < ss  && allaKakor[which_cake].kB[temp_bite + S].eaten == -1 )
 			{
 				temp_joy = calcJoy( allaKakor, kakMonster, which_cake, guest, (temp_bite + S), I);
-				//cout << "temp_joy 2 " << temp_joy << endl;
 				if( temp_joy > max_joy )
 				{
 					max_joy = temp_joy;
@@ -280,11 +237,9 @@ public:
 			}//if
 
 			//left
-			//if( temp_bite - 1 >= 0 && allaKakor[which_cake].kB[temp_bite - 1].eaten == -1 )
 			if( temp_bite % S != 0 && allaKakor[which_cake].kB[temp_bite - 1].eaten == -1 )
 			{
 				temp_joy = calcJoy( allaKakor, kakMonster, which_cake, guest, (temp_bite - 1), I);
-			//	cout << "temp_joy 3 " << temp_joy << endl;
 				if( temp_joy > max_joy )
 				{
 					max_joy = temp_joy;
@@ -293,11 +248,9 @@ public:
 			}//if
 
 			//right
-			//if( temp_bite + 1 < ss && allaKakor[which_cake].kB[temp_bite + 1].eaten == -1 )
 			if( temp_bite % S != ( S - 1 ) && allaKakor[which_cake].kB[temp_bite + 1].eaten == -1 )
 			{
 				temp_joy = calcJoy( allaKakor, kakMonster, which_cake, guest, (temp_bite + 1), I);
-				//cout << "temp_joy 4 " << temp_joy << endl;
 				if( temp_joy > max_joy )
 				{
 					max_joy = temp_joy;
@@ -321,7 +274,6 @@ public:
 	public:
 		inline bool operator()( const kakEater lhs,const kakEater rhs) const//skall det vara &?
 		{
-		//	return !(lhs.joyPoints < rhs.joyPoints); // kolla att rätt
 			if( lhs.joyPoints < rhs.joyPoints)
 				return false;
 			if( lhs.joyPoints > rhs.joyPoints)
@@ -336,28 +288,21 @@ public:
 		kakEater temp_guest = kakEaterQueue.top();
 		kakEaterQueue.pop();
 		int temp_id = temp_guest.id;
-		//cout << "temp_id " << temp_id << endl;
 		int temp_cake = temp_guest.which_cake;
-		//cout << "temp_cake " << temp_cake << endl;
 		int temp_bite= findJoyfullestBite(allaKakor, kakMonster, temp_cake, temp_id, S, I);
-		//cout << "temp_bite " << temp_bite << endl;
 		markBite(allaKakor, kakMonster, temp_id, temp_cake, temp_bite);
 		addPoints(allaKakor, kakMonster, temp_id, temp_cake, temp_bite, I);
 		kakEaterQueue.push(kakMonster[temp_id]);
-		//cout << "Points: " << kakMonster[0].joyPoints << endl;
 		
 		while( !kakEaterQueue.empty() )
 	//	for(int i = 0; i < 641; i++)
 		{
-			//if( i == 640 ) cout << "kakE " << kakEaterQueue.top().cake_bites.size() << endl;
 			temp_guest = kakEaterQueue.top();
 			kakEaterQueue.pop();
 			temp_id = temp_guest.id;
-			
 			temp_cake = temp_guest.which_cake;
-			//cout << "temp_cake " << temp_cake << endl;
 			temp_bite= findJoyfullestBite(allaKakor, kakMonster, temp_cake, temp_id, S, I);
-			//cout << "temp_bite " << temp_bite << endl;
+
 			if( temp_bite != -2 )
 			{
 				markBite(allaKakor, kakMonster, temp_id, temp_cake, temp_bite);
@@ -401,6 +346,5 @@ public:
 
 		return ret;
 	}//split
-
 
 };//Cakes
