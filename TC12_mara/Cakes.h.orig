@@ -76,6 +76,20 @@ public:
 	
 	void whichCake (const vector<helKaka> &allaKakor, vector<kakEater> &kakMonster , const int S, vector<int> &how_many_guests_per_cake )
 	{
+<<<<<<< HEAD
+		//kakMonster[0].which_cake = 1;
+		//kakMonster[1].which_cake = 1;
+		//kakMonster[2].which_cake = 0;
+		//kakMonster[3].which_cake = 0;
+		//how_many_guests_per_cake[0] = 2;
+		//how_many_guests_per_cake[1] = 2;
+
+
+		/////////////////////////////////////////////////////
+		// a local copy, no worries!
+		//vector<kakEater> chooseCakeEater (kakMonster);
+=======
+>>>>>>> origin/whichCake_1
 		int num_cakes = allaKakor.size();
 		int num_guests = kakMonster.size();
 		int ing = allaKakor[0].kB[0].ingredient.size();
@@ -107,12 +121,17 @@ public:
 		//testa 2 olika initial startingar, översta minimala maxet får välja först
 		//nästa, den som har minimala totalen får välja först
 
+		//for(int i = 0; i < num_guests; i++) {
+		//	temp_max = *max_element(guest_want_cake[i].begin(), guest_want_cake[i].end() );
+		//	guests_max.push_back(temp_max);
+		//}//for i
+
 		int temp_total = 0;
 		for(int i = 0; i < num_guests; i++) {
 			temp_total = accumulate(guest_want_cake[i].begin(), guest_want_cake[i].end(), 0);
 			guests_max.push_back(temp_total);
 		}//for i
-		//den andra varianten är borta, finns den i acer?
+
 
 		for(int g = 0; g < num_guests; g++) {
 			int who = min_element(guests_max.begin(), guests_max.end() ) - guests_max.begin();
@@ -135,9 +154,11 @@ public:
 			
 		}//for g
 	
+		//leta upp den med lägst ( points / antalPåTårta)
 		//swappa med alla andra till erhåller lägst poäng
-		// fördela enligt lägsta min eller enligt lägsta totpoäng (enligt ovan) 
+		// fördela enligt lägsta min (enligt ovan) eller enligt lägsta totpoäng
 
+		int wh = 0;
 		bool has_changed = true;
 		while (has_changed) {
 			has_changed = false;
@@ -158,6 +179,7 @@ public:
 				}//if
 			}//for
 
+			//cout << "i " << min_guest << endl;
 			//nu har jag hittat gästen med lägst chans att få många poäng
 			// gå igenom alla gäster, hitta min_
 
@@ -192,6 +214,7 @@ public:
 				}//if
 			}//for
 
+	//		if( wh == 1) cout << "swapee " << swapee << endl;
 			if(swapee != -1) {
 				has_changed = true;
 				int temp = kakMonster[min_guest].which_cake;
@@ -200,12 +223,36 @@ public:
 
 			}
 
+			wh++;
 		}//while
+
+
+
+	////////////////////////////////////////////
+		//avvakta 
+		//vector<int> guest_total;
+		//int temp_total;
+		//for(int i = 0; i < num_guests; i++) {
+		//	temp_total = accumulate(guest_want_cake[i].begin(), guest_want_cake[i].end(), 0);
+		//	guest_total.push_back(temp_total);
+		//}//for i
 
 		for(int c = 0; c < num_cakes; c++)
 		{
 			how_many_guests_per_cake[c] = number_per_cake[c] - 1;
 		}// for c
+<<<<<<< HEAD
+
+		////////////////////////////////////////////////////////////////////////
+	//	cout << "number per cake " << number_per_cake[0] << endl;
+
+	//	cout << "which cake " << kakMonster[3].which_cake;
+		//int guests_per_cake = ( G + C - 1) / C;
+		//for( int i = 0; i < G; i++) {
+		//	kakMonster[i].which_cake = i / guests_per_cake;
+		//}//for
+=======
+>>>>>>> origin/whichCake_1
 
 	};//whichCake
 ////////////////////////////////////////////////////////
@@ -251,7 +298,7 @@ public:
 		for( int c = 0; c < C; c++) {
 			int gpc = how_many_guests_per_cake[c];
 			
-		//	for( int g = 0; g < gpc; g++) {
+			for( int g = 0; g < gpc; g++) {
 				int num_g = 0;
 				vector<kakEater>::iterator it = kakMonster.begin();
 				for( ; it != kakMonster.end(); it++) {
@@ -264,9 +311,9 @@ public:
 					}//if
 
 				}// for it
-	//		}//for g
+			}//for g
 		}//for c
-				
+
 	};//startCut
 ////////////////////////////////////////////////////////
 	int findJoyfullestBite( const vector<helKaka> &allaKakor, const vector<kakEater> &kakMonster, const int which_cake, const int guest, const int S, const int I )//returning which bite
@@ -360,9 +407,9 @@ public:
 		addPoints(allaKakor, kakMonster, temp_id, temp_cake, temp_bite, I);
 		kakEaterQueue.push(kakMonster[temp_id]);
 	
+
 		bool has_changed = true;
-		bool first_not_changed = true;
-		int temp_min = INT_MAX;
+		int temp_min = 0;
 	
 		while( !kakEaterQueue.empty() )
 		//while( has_changed )
@@ -373,10 +420,10 @@ public:
 			kakEaterQueue.pop();
 			temp_id = temp_guest.id;
 			temp_cake = temp_guest.which_cake;
-	
-			if( temp_guest.joyPoints > temp_min ) {
-				break;
-			}
+	//		cout << "temp_bite id " << temp_id;
+
+			
+//			if(temp_guest.joyPoints < temp_min ) has_changed = true;
 
 			temp_bite= findJoyfullestBite(allaKakor, kakMonster, temp_cake, temp_id, S, I);
 
@@ -389,13 +436,16 @@ public:
 				has_changed = true;
 			//	temp_min = kakMonster[temp_id].joyPoints;
 			}//if
-			else if( first_not_changed == true ) {
+			else {
 				temp_min = kakMonster[temp_id].joyPoints;
-				first_not_changed = false;
+//				cout << "	JOYP " << temp_min << endl;
+
 			}//else
 
 		}//while
-//		
+//		cout << "temp_id " << temp_id << endl;
+//		cout << "temp_g " << temp_guest.id << endl;
+
 	};//cutUp
 ////////////////////////////////////////////////////////
 	vector<int> split(int C, int G, int I, int S, vector<int> preferences, vector<int> cakes)
@@ -413,8 +463,8 @@ public:
 			kakEaterQueue.push(kakMonster[i]);
 
 		}//for
-//		cutUp(allaKakor, kakMonster, kakEaterQueue, S, I);
-//		cout << "nr 28 " << kakMonster[28].which_cake << endl;
+		cutUp(allaKakor, kakMonster, kakEaterQueue, S, I);
+			
 
 		//output
 		vector<int> ret;
