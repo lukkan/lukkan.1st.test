@@ -127,7 +127,7 @@ public:
 			vector<int> cake_need = guest_want_cake[who];
 			for(int c = 0; c < num_cakes; c++) {
 				temp_cake_value = cake_need[c] / number_per_cake[c];
-				if(temp_cake_value > max_cake_value ) {
+				if(temp_cake_value > max_cake_value && number_per_cake[c] < 11 ) {
 					max_cake_nr = c;
 					max_cake_value = temp_cake_value;
 				}//if
@@ -259,104 +259,78 @@ public:
 	void startCut ( vector<helKaka> &allaKakor, vector<kakEater> &kakMonster ,const int S, const int C, const int I, const vector<int> &how_many_guests_per_cake)
 	{ 
 		//how_many, bestämms i whichCake
-		
-		//cout << "how many " << how_many_guests_per_cake[0] << endl;
-		//cout << "antal g " << how_many_guests_per_cake[0] << endl;
-
+	
 		for(int c = 0; c < C; c++) {
 			int gpc = how_many_guests_per_cake[c];
 			int num_g = 0;
 			vector<kakEater>::iterator it = kakMonster.begin();
 		//	float x[10];
 		//	float y[10];
-			vector<float> x_vec;
-			vector<float> y_vec;
+			//vector<float> x_vec;
+			//vector<float> y_vec;
+			vector<int> temp_bite_vec;
 
 			switch(gpc)
 			{
 			case 2:
 				{
-				 float x2 [2] = { 0, 1 };
-				 float y2 [2] = { 0, 1 };
-				 //x_vec.assign(x2, x2 + sizeof(x2) /sizeof(float) );
-				 x_vec.assign(x2, x2 + gpc );
-				 y_vec.assign(y2, y2 + gpc );
+					int v2 [2] = { 0, 9999 };
+					temp_bite_vec.assign(v2, v2 + gpc);
 				}
 				break;
 			case 3:
 				{
-				float x3 [3] = { 0, 1, 0.33 };
-				float y3 [3] = { 0, 0.33, 1 };
-				 x_vec.assign(x3, x3 + gpc );
-				 y_vec.assign(y3, y3 + gpc );
+					int v3 [3] = { 0, 3299, 9933 };
+					temp_bite_vec.assign(v3, v3 + gpc);
 				}
 				break;
 				
 			case 4:
 				{
-				float x4 [4] = { 0, 1, 1, 0 };
-				float y4 [4] = { 0, 0, 1, 1 };
-				x_vec.assign(x4, x4 + gpc );
-				y_vec.assign(y4, y4 + gpc );
+					int v4 [4] = { 0, 99, 9999, 9900 };
+					temp_bite_vec.assign(v4, v4 + gpc);
 				}
 				break;
 				
 			case 5:
 				{
-				float x5 [5] = { 0, 0.8, 1, 0.6, 0 };
-				float y5 [5] = { 0, 0, 0.6, 1, 0.8 };
-				x_vec.assign(x5, x5 + gpc );
-				y_vec.assign(y5, y5 + gpc );
+					int v5 [5] = { 0, 80, 5999, 9960,  8000 };
+					temp_bite_vec.assign(v5, v5 + gpc);
 				}
 				break;
 				
 			case 6:
 				{
-				float x6 [6] = { 0, 0.66, 1, 1, 0.33, 0 };
-				float y6 [6] = { 0, 0, 0.33, 1, 1, 0.67 };
-				x_vec.assign(x6, x6 + gpc );
-				y_vec.assign(y6, y6 + gpc );
+					int v6 [6] = { 0, 67, 3299, 9999, 9933, 6700 };
+					temp_bite_vec.assign(v6, v6 + gpc);
 				}
 				break;
 				
 			case 7:
 				{
-				float x7 [7] = { 0, 0.57, 1, 1, 0.71, 0.14, 0 };
-				float y7 [7] = { 0, 0.14, 0.71, 1, 1, 0.57 };
-				x_vec.assign(x7, x7 + gpc );
-				y_vec.assign(y7, y7 + gpc );
+					int v7 [7] = { 0, 57, 1399, 7199, 9971, 9914, 5700 };
+					temp_bite_vec.assign(v7, v7 + gpc);
 				}
 				break;
 				
 			case 8:
 				{
-				float x8 [8] = { 0, 0.5, 1, 1, 1, 0.5, 0, 0 };
-				float y8 [8] = { 0, 0, 0, 0.5, 1, 1, 1, 0.5 };
-				x_vec.assign(x8, x8 + gpc );
-				y_vec.assign(y8, y8 + gpc );
+					int v8 [8] = { 0, 50, 99,4999, 9999, 9950, 9900, 5000 };
+					temp_bite_vec.assign(v8, v8 + gpc);
 				}
 				break;
 				
 			case 9:
 				{
-				//float x9 [9] = { 0, 0.45, 0.89,	  1,    1, 0.77, 0.33,    0,    0 };
-				//float y9 [9] = { 0,	  0,	0, 0.34, 0.78,    1,    1, 0.88, 0.44 };
-				double x9 [9] = { 0, 0.45, 0.89,	  1,     1,   0.77,  0.33,    0,    0 };
-				double y9 [9] = { 0,	  0,	0,  0.34,	0.78,    1,    1,	0.88, 0.44 };
-				
-				//double x9 [9] = { 0, 0.444445 , 0.888889 , 1, 1, 16/9 - 1, 3 - 20 / 9, 0, 0 };
-				//double y9 [9] = { 0, 0, 0, 0.333333, 0.777778, 1, 1, 4-7*4/9, 4-8*4/9 };
-				x_vec.assign(x9, x9 + gpc );
-				y_vec.assign(y9, y9 + gpc );
+					int v9 [9] = { 0, 44, 88, 3299, 7699,  9977, 9933, 8800, 4400 };
+					temp_bite_vec.assign(v9, v9 + gpc);
 				}
 				break;
 				
 			case 10:
 				{
-				float x10 [10] = { 0, 0.4, 0.8, 1, 1, 1, 0.6, 0.2, 0, 0 };
-				float y10 [10] = { 0, 0, 0, 0.2, 0.6, 1, 1, 1, 0.8, 0.4 };
-				x_vec.assign(x10, x10 + gpc );
-				y_vec.assign(y10, y10 + gpc );
+					int v10 [10] = { 0, 40, 80, 1999, 5999, 9999, 9960, 9920, 8000, 4000 };
+					temp_bite_vec.assign(v10, v10 + gpc);
 				}
 				break;
 			}//switch 
@@ -364,24 +338,10 @@ public:
 		
 			for( ; it != kakMonster.end(); it++) {
 					if( (*it).which_cake == c ) {
-						int temp_bite;
 
-						temp_bite = ( (double) S - 1) * ( x_vec[num_g] + (double)S * y_vec[num_g] ) ;
-
-						//if( y_vec[num_g] == 0 || y_vec[num_g] == 1) {
-						//temp_bite = ( (double) S - 1) * ( x_vec[num_g] + (double)S * y_vec[num_g] ) ;
-						//}//if
-						//else {
-						//	vector<kakBit>::iterator it = allaKakor[c].kB.begin();
-						//	
-						//	while ( it != allaKakor[c].kB.end() )
-						//	{
-						//		if( (*it).col == y_vec[num_g] * S && (*it).row == x_vec[num_g] * S )
-						//		//{ temp_bit = allaKakor[c].kB.begin() - it; }
-						//		{ temp_bit = distance(allaKakor[c].kB.begin(), it); }
-						//		it++;
-						//	}//while
-						//}//else
+						int temp_bite_1 = ( (temp_bite_vec[num_g]  % 100) * S )/100  ;//normera, har räknat med S = 100
+						int temp_bite_2 = ( ( ( temp_bite_vec[num_g] / 100 ) * S ) / 100 ) * S;
+						int temp_bite = temp_bite_1 + temp_bite_2;
 
 						num_g++;
 			
@@ -393,26 +353,6 @@ public:
 
 		}//for
 
-
-	//	for( int c = 0; c < C; c++) {
-	//		int gpc = how_many_guests_per_cake[c];
-	//		
-	//	//	for( int g = 0; g < gpc; g++) {
-	//			int num_g = 0;
-	//			vector<kakEater>::iterator it = kakMonster.begin();
-	//			for( ; it != kakMonster.end(); it++) {
-	//				if( (*it).which_cake == c ) {
-	//					int temp_bite = ( (float)S * (float)S - 1) * (float)num_g  / ( (float)gpc - 1) ;
-	//					num_g++;
-	//					//(*it).cake_bites.push_back(temp_bite); // görs i addPoints
-	//					markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-	//					addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-	//				}//if
-
-	//			}// for it
-	////		}//for g
-	//	}//for c
-				
 	};//startCut
 
 ////////////////////////////////////////////////////////
@@ -537,7 +477,6 @@ public:
 				kakEaterQueue.push(kakMonster[temp_id]);
 
 				has_changed = true;
-			//	temp_min = kakMonster[temp_id].joyPoints;
 			}//if
 			else if( first_not_changed == true ) {
 				temp_min = kakMonster[temp_id].joyPoints;
@@ -564,8 +503,8 @@ public:
 			kakEaterQueue.push(kakMonster[i]);
 
 		}//for
+		
 		cutUp(allaKakor, kakMonster, kakEaterQueue, S, I);
-//		cout << "nr 28 " << kakMonster[28].which_cake << endl;
 
 		//output
 		vector<int> ret;
