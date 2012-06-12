@@ -261,99 +261,128 @@ public:
 		//how_many, bestämms i whichCake
 		
 		//cout << "how many " << how_many_guests_per_cake[0] << endl;
+		//cout << "antal g " << how_many_guests_per_cake[0] << endl;
 
 		for(int c = 0; c < C; c++) {
 			int gpc = how_many_guests_per_cake[c];
+			int num_g = 0;
+			vector<kakEater>::iterator it = kakMonster.begin();
+		//	float x[10];
+		//	float y[10];
+			vector<float> x_vec;
+			vector<float> y_vec;
 
 			switch(gpc)
 			{
 			case 2:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [2] = { 0, 1 };
-				float y [2] = { 0, 1 };
+				 float x2 [2] = { 0, 1 };
+				 float y2 [2] = { 0, 1 };
+				 //x_vec.assign(x2, x2 + sizeof(x2) /sizeof(float) );
+				 x_vec.assign(x2, x2 + gpc );
+				 y_vec.assign(y2, y2 + gpc );
 				}
 				break;
 			case 3:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [3] = { 0, 1, 0.33 };
-				float y [3] = { 0, 0.33, 1 };
+				float x3 [3] = { 0, 1, 0.33 };
+				float y3 [3] = { 0, 0.33, 1 };
+				 x_vec.assign(x3, x3 + gpc );
+				 y_vec.assign(y3, y3 + gpc );
 				}
 				break;
 				
 			case 4:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [4] = { 0, 1, 1, 0 };
-				float y [4] = { 0, 0, 1, 1 };
+				float x4 [4] = { 0, 1, 1, 0 };
+				float y4 [4] = { 0, 0, 1, 1 };
+				x_vec.assign(x4, x4 + gpc );
+				y_vec.assign(y4, y4 + gpc );
 				}
 				break;
 				
 			case 5:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [5] = { 0, 0.8, 1, 0.6, 0 };
-				float y [5] = { 0, 0, 0.6, 1, 0.8 };
+				float x5 [5] = { 0, 0.8, 1, 0.6, 0 };
+				float y5 [5] = { 0, 0, 0.6, 1, 0.8 };
+				x_vec.assign(x5, x5 + gpc );
+				y_vec.assign(y5, y5 + gpc );
 				}
 				break;
 				
 			case 6:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [6] = { 0, 0.66, 1, 1, 0.33, 0 };
-				float y [6] = { 0, 0, 0.33, 1, 1, 0.67 };
+				float x6 [6] = { 0, 0.66, 1, 1, 0.33, 0 };
+				float y6 [6] = { 0, 0, 0.33, 1, 1, 0.67 };
+				x_vec.assign(x6, x6 + gpc );
+				y_vec.assign(y6, y6 + gpc );
 				}
 				break;
 				
 			case 7:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [7] = { 0, 0.57, 1, 1, 0.71, 0.14, 0 };
-				float y [7] = { 0, 0.14, 0.71, 1, 1, 0.57 };
+				float x7 [7] = { 0, 0.57, 1, 1, 0.71, 0.14, 0 };
+				float y7 [7] = { 0, 0.14, 0.71, 1, 1, 0.57 };
+				x_vec.assign(x7, x7 + gpc );
+				y_vec.assign(y7, y7 + gpc );
 				}
 				break;
 				
 			case 8:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [8] = { 0, 0.5, 1, 1, 1, 0.5, 0, 0 };
-				float y [8] = { 0, 0, 0, 0.5, 1, 1, 1, 0.5 };
+				float x8 [8] = { 0, 0.5, 1, 1, 1, 0.5, 0, 0 };
+				float y8 [8] = { 0, 0, 0, 0.5, 1, 1, 1, 0.5 };
+				x_vec.assign(x8, x8 + gpc );
+				y_vec.assign(y8, y8 + gpc );
 				}
 				break;
 				
 			case 9:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [9] = { 0, 0.45, 0.89,	  1,    1, 0.78, 0.34,    0,    0 };
-				float y [9] = { 0,	  0,	0, 0.34, 0.78,    1,    1, 0.89, 0.45 };
-				//float x [9] = { 0, 4/9 , 8/9 , 1, 1, 16/9 - 1, 3 - 24 / 9, 0, 0 };
-				//float y [9] = { 0, 0, 0, 0.34, 0.78, 1, 1, 0.89, 0.45 };
+				//float x9 [9] = { 0, 0.45, 0.89,	  1,    1, 0.77, 0.33,    0,    0 };
+				//float y9 [9] = { 0,	  0,	0, 0.34, 0.78,    1,    1, 0.88, 0.44 };
+				double x9 [9] = { 0, 0.45, 0.89,	  1,     1,   0.77,  0.33,    0,    0 };
+				double y9 [9] = { 0,	  0,	0,  0.34,	0.78,    1,    1,	0.88, 0.44 };
+				
+				//double x9 [9] = { 0, 0.444445 , 0.888889 , 1, 1, 16/9 - 1, 3 - 20 / 9, 0, 0 };
+				//double y9 [9] = { 0, 0, 0, 0.333333, 0.777778, 1, 1, 4-7*4/9, 4-8*4/9 };
+				x_vec.assign(x9, x9 + gpc );
+				y_vec.assign(y9, y9 + gpc );
 				}
 				break;
 				
 			case 10:
 				{
-				int num_g = 0;
-				vector<kakEater>::iterator it = kakMonster.begin();
-				float x [10] = { 0, 0.4, 0.8, 1, 1, 1, 0.6, 0.2, 0, 0 };
-				float y [10] = { 0, 0, 0, 0.2, 0.6, 1, 1, 1, 0.8, 0.4 };
+				float x10 [10] = { 0, 0.4, 0.8, 1, 1, 1, 0.6, 0.2, 0, 0 };
+				float y10 [10] = { 0, 0, 0, 0.2, 0.6, 1, 1, 1, 0.8, 0.4 };
+				x_vec.assign(x10, x10 + gpc );
+				y_vec.assign(y10, y10 + gpc );
 				}
 				break;
-			}//switch
+			}//switch 
 
+		
 			for( ; it != kakMonster.end(); it++) {
 					if( (*it).which_cake == c ) {
-						//int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-						int temp_bite = ( S - 1) * ( x[num_g] + S * y[num_g] ) ;
+						int temp_bite;
+
+						temp_bite = ( (double) S - 1) * ( x_vec[num_g] + (double)S * y_vec[num_g] ) ;
+
+						//if( y_vec[num_g] == 0 || y_vec[num_g] == 1) {
+						//temp_bite = ( (double) S - 1) * ( x_vec[num_g] + (double)S * y_vec[num_g] ) ;
+						//}//if
+						//else {
+						//	vector<kakBit>::iterator it = allaKakor[c].kB.begin();
+						//	
+						//	while ( it != allaKakor[c].kB.end() )
+						//	{
+						//		if( (*it).col == y_vec[num_g] * S && (*it).row == x_vec[num_g] * S )
+						//		//{ temp_bit = allaKakor[c].kB.begin() - it; }
+						//		{ temp_bit = distance(allaKakor[c].kB.begin(), it); }
+						//		it++;
+						//	}//while
+						//}//else
+
 						num_g++;
 			
 						markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
@@ -364,188 +393,6 @@ public:
 
 		}//for
 
-		//for(int c = 0; c < C; c++) {
-		//	int gpc = how_many_guests_per_cake[c];
-
-		//	switch(gpc)
-		//	{
-		//	case 2:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [2] = { 0, 1 };
-		//		float y [2] = { 0, 1 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//	case 3:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [3] = { 0, 1, 0.33 };
-		//		float y [3] = { 0, 0.33, 1 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//		
-		//	case 4:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [4] = { 0, 1, 1, 0 };
-		//		float y [4] = { 0, 0, 1, 1 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//		
-		//	case 5:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [5] = { 0, 0.8, 1, 0.6, 0 };
-		//		float y [5] = { 0, 0, 0.6, 1, 0.8 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//		
-		//	case 6:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [6] = { 0, 0.66, 1, 1, 0.33, 0 };
-		//		float y [6] = { 0, 0, 0.33, 1, 1, 0.67 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//		
-		//	case 7:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [7] = { 0, 0.57, 1, 1, 0.71, 0.14, 0 };
-		//		float y [7] = { 0, 0.14, 0.71, 1, 1, 0.57 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//		
-		//	case 8:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [8] = { 0, 0.5, 1, 1, 1, 0.5, 0, 0 };
-		//		float y [8] = { 0, 0, 0, 0.5, 1, 1, 1, 0.5 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//		
-		//	case 9:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [9] = { 0, 0.45, 0.89,	  1,    1, 0.78, 0.34,    0,    0 };
-		//		float y [9] = { 0,	  0,	0, 0.34, 0.78,    1,    1, 0.89, 0.45 };
-		//		//float x [9] = { 0, 4/9 , 8/9 , 1, 1, 16/9 - 1, 3 - 24 / 9, 0, 0 };
-		//		//float y [9] = { 0, 0, 0, 0.34, 0.78, 1, 1, 0.89, 0.45 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				//int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				int temp_bite = ( S - 1) * ( x[num_g] + S * y[num_g] ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-		//		
-		//	case 10:
-		//		{
-		//		int num_g = 0;
-		//		vector<kakEater>::iterator it = kakMonster.begin();
-		//		float x [10] = { 0, 0.4, 0.8, 1, 1, 1, 0.6, 0.2, 0, 0 };
-		//		float y [10] = { 0, 0, 0, 0.2, 0.6, 1, 1, 1, 0.8, 0.4 };
-		//		for( ; it != kakMonster.end(); it++) {
-		//			if( (*it).which_cake == c ) {
-		//				int temp_bite = (  ( S - 1 ) * ( S * y[num_g] + x[num_g] ) ) ;
-		//				num_g++;
-		//	
-		//				markBite(allaKakor, kakMonster, (*it).id, c, temp_bite);
-		//				addPoints(allaKakor, kakMonster, (*it).id, c, temp_bite, I);
-		//			}//if
-		//		}//for
-
-		//		}
-		//		break;
-
-		//	}//switch
-
-
-		//}//for
 
 	//	for( int c = 0; c < C; c++) {
 	//		int gpc = how_many_guests_per_cake[c];
@@ -717,7 +564,7 @@ public:
 			kakEaterQueue.push(kakMonster[i]);
 
 		}//for
-//		cutUp(allaKakor, kakMonster, kakEaterQueue, S, I);
+		cutUp(allaKakor, kakMonster, kakEaterQueue, S, I);
 //		cout << "nr 28 " << kakMonster[28].which_cake << endl;
 
 		//output
